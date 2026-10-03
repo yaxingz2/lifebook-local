@@ -1,0 +1,14 @@
+# Architecture and testing status
+
+Version 0.2 uses a Node HTTP server and `ws` WebSocket control channel bound to `127.0.0.1`, a responsive static browser UI, and atomic JSON files under `~/LifeBook`. Mutating API requests require exact same origin and a random per-process header token; read APIs except bootstrap also require it. The voice upgrade checks Host, Origin, and the token subprotocol. Host checks reject DNS rebinding to an unexpected hostname. The key lives in a separate mode-0600 secrets file and is not returned by settings or included in book backups.
+
+The mock interviewer is explicitly scripted and its chapters are source collections. Qwen text chat and manuscript generation use the unified compatible Chat Completions endpoint. Real voice uses only Qwen Audio 3.0 Flash over native browser/provider WebRTC. The server exchanges SDP using its private API Key; an authenticated WebSocket carries configuration, transcript metadata and save/stop controls. It never forwards PCM audio. Removing that control socket would break authentication, transcript persistence and conversation lifecycle. No Workspace ID is required. OpenAI, regional voice endpoints and the AudioWorklet audio relay are removed.
+
+`src/webrtc-provider.js` isolates provider signalling; `src/models.js` defines supported voices and session configuration. A future voice provider must implement WebRTC signalling plus compatible control/transcript events before it is listed as supported. WebRTC support is provider-specific; it cannot be added to a model solely by changing its name.
+
+Saved conversations, books and backups keep their schema. Removed settings normalize to the supported Qwen WebRTC configuration when read. The unified Qwen key is reused, but legacy regional/OpenAI secrets are never sent to the unified endpoint. If only a retired key exists, the user must enter a new unified Qwen key. Legacy secrets remain on disk for manual recovery and are not exposed by the API. Demo text mode remains available. Original audio is not retained. A refusal excludes local evidence and ends the live connection to clear provider context. WebRTC usage metadata is client-reported and is not authoritative billing evidence.
+
+
+JSON backup includes a SHA-256 checksum and restores as a fresh book ID. It is not a ZIP archive. Backups have an input-size cap and nested schema validation before persistence. The local server has no sign-in and assumes a trusted logged-in operating-system account. An already compromised same-user process can read the files.
+
+Automated integration tests cover the longitudinal mock flow and rejection of unauthorized requests. Live Qwen, real microphone, slow speech, cross-platform packaging, accessibility with a screen reader, hard crash during disk write, and user studies need separate verification before a public voice-release claim.

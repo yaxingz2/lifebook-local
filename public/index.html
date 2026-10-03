@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f2e9">
+  <title>LifeBook · 把故事慢慢说出来</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar" aria-label="主导航">
+      <a class="brand" href="#home" data-view="home" aria-label="LifeBook 首页"><span class="brand-mark">✦</span><span>LifeBook<small>人生之书</small></span></a>
+      <nav aria-label="主要页面">
+        <button class="side-link main-nav-link" data-view="home" type="button"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m3 10 9-7 9 7M5 9v11h5v-6h4v6h5V9"/></svg></span><span>主页</span></button>
+        <button class="side-link main-nav-link bookshelf-link" data-view="shelf" type="button"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 21h18"/><rect x="4" y="4" width="4" height="14" rx="1"/><rect x="8" y="4" width="4" height="14" rx="1"/><path d="m15 4 4-1 3 14-4 1zM5 8h2M9 8h2"/></svg></span><span>书架</span></button>
+      </nav><div class="sidebar-section"><div class="sidebar-label">你的书</div><div id="book-list" class="book-list"></div><button id="new-book-side" class="add-book" type="button">＋ 新建一本书</button></div>
+      <div class="sidebar-bottom"><button class="side-link main-nav-link" data-view="user-settings" type="button"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M11 5 6 9H3v6h3l5 4zM15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></svg></span><span>个人设置</span></button><button class="side-link" data-view="settings" type="button"><span aria-hidden="true">⚙</span> 服务设置</button><p>每个人的故事，都值得被好好听见。</p></div>
+    </aside>
+    <button id="menu-backdrop" class="menu-backdrop" type="button" aria-label="收起菜单" tabindex="-1"></button>
+    <div class="workarea">
+      <header class="topbar"><button id="menu-toggle" class="icon-button menu-toggle" type="button" aria-label="打开菜单" aria-expanded="false">☰</button><div class="crumb" id="crumb">我的书架</div><div class="topbar-right"><span class="local-pill">● 保存在本机</span><button class="top-settings" data-view="settings" type="button" aria-label="设置">设置</button></div></header>
+      <section id="chapter-jobs" aria-label="书稿生成任务"></section>
+      <main id="app" tabindex="-1"></main>
+    </div>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <div id="dialog-root"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
+
